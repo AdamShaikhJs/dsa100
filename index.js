@@ -59,18 +59,21 @@ function higestReduce(arr) {
 }
 console.log('reduce-->', higestReduce([1, 20, 3, 4, 22, 42, 42, 23]));
 
-// 5 sort the array acceding order
+// 5 sort the array acceding order  for alredy swap array
 function sortArray(arr) {
+  let swapped;
   for (let i = 0; i < arr.length; i++) {
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] > arr[j]) {
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+    swapped = false;  // Reset the swapped flag for this pass
+    for (let j = 0; j < arr.length - 1 - i; j++) {  // Decrease the range of comparison
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];  // Swap elements
+        swapped = true;  // Mark that a swap occurred
       }
     }
+    if (!swapped) break;  // If no swaps happened, the array is sorted
   }
   return arr;
 }
-console.log(sortArray([2, 1, 3, 4, 3, 2]));
 
 // 6 sort array using  the temp variable
 function sortArrayTemp(arr) {
@@ -87,25 +90,11 @@ function sortArrayTemp(arr) {
 }
 console.log(sortArrayTemp([2, 1, 3, 4, 3, 2]));
 
-// 7 for alredy swap array
-function sortArray(arr) {
-  let swapped;
-  for (let i = 0; i < arr.length; i++) {
-    swapped = false;  // Reset the swapped flag for this pass
-    for (let j = 0; j < arr.length - 1 - i; j++) {  // Decrease the range of comparison
-      if (arr[j] > arr[j + 1]) {
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];  // Swap elements
-        swapped = true;  // Mark that a swap occurred
-      }
-    }
-    if (!swapped) break;  // If no swaps happened, the array is sorted
-  }
-  return arr;
-}
+
 
 console.log(sortArray([2, 1, 3, 4, 3, 2]));  // Output: [1, 2, 2, 3, 3, 4]
 
-//8 Check if Array is Sorted
+//7 Check if Array is Sorted
 function checkArraySorted (arr){
   let isSorted =false
   for (let i=0; i<arr.length-1;i++){
@@ -120,7 +109,7 @@ function checkArraySorted (arr){
 console.log(checkArraySorted([2,3, 7, 3, 2 ])); // Output: [ 4, 5, 7, 3, 2 ]
 
 
-//9 remove/find the duplicate using the for..of
+//8 remove/find the duplicate using the for..of
 function findDuplicateArray(arr) {
   let duplicate = [];
   let removed = [];
@@ -135,7 +124,7 @@ function findDuplicateArray(arr) {
 }
 console.log(findDuplicateArray([2, 1, 3, 3, 4, 4, 3, 2]));
 
-//10 remove duplicat using reduce method
+// using reduce method
 function removeDuplicate(arr) {
   return arr.reduce(
     (acc, curr) => {
@@ -147,6 +136,60 @@ function removeDuplicate(arr) {
   );
 }
 console.log(removeDuplicate([2, 1, 3, 3, 4, 4, 3, 2]));
+
+//9 find the duplicate of the array 
+function findDuplicates(array) {
+  const elementCount = {}; 
+  const duplicates = [];  
+  for (const element of array) {
+      elementCount[element] = (elementCount[element] || 0) + 1;
+  }
+  for (const element in elementCount) {
+      if (elementCount[element] > 1) {
+          duplicates.push(Number(element)); 
+      }
+  }
+
+  return duplicates;
+}
+console.log(findDuplicates([1, 2, 3, 2, 4, 3, 5, 1, 2, 1])); // Output: [1, 3]
+
+//10 most duplicate using the for of
+function findMostDuplicate(nums) {
+  const countMap = {};  
+  for (const num of nums) {
+      countMap[num] = (countMap[num] || 0) + 1;
+  }
+  let mostDuplicateValue = null;
+  let maxCount = 0;
+
+  for (const [key, value] of Object.entries(countMap)) {
+      if (value > maxCount) {
+          mostDuplicateValue = key;
+          maxCount = value;
+      }
+  }
+
+  return mostDuplicateValue;
+}
+
+//11 most duplicate using the for of
+function findMostDuplicateValue(arr) {
+  let countObj = {};
+  let mostDuplicateValue = null;
+  let maxCount = 0;
+  for (let num of arr) {
+    countObj[num] = (countObj[num] || 0) + 1;
+    if (countObj[num] > maxCount) {
+      mostDuplicateValue = num;
+      maxCount = countObj[num];
+    }
+  }
+  return mostDuplicateValue;
+}
+console.log(findMostDuplicateValue([2, 3, 3, 7, 3, 4, 4])); // Output: 3
+
+
 
 //11 find the majorit of the elemnt
 function majorityElem(arr) {
@@ -163,42 +206,8 @@ function majorityElem(arr) {
 }
 console.log(majorityElem([2, 3, 3, 7, 3, 4, 4])); // Output: 3
 
-//12 most duplicate using the for of
-function findMostDuplicateValue(arr) {
-  let countObj = {};
-  let mostDuplicateValue = null;
-  let maxCount = 0;
-  for (let num of arr) {
-    countObj[num] = (countObj[num] || 0) + 1;
-    if (countObj[num] > maxCount) {
-      mostDuplicateValue = num;
-      maxCount = countObj[num];
-    }
-  }
 
-  return mostDuplicateValue;
-}
-console.log(findMostDuplicateValue([2, 3, 3, 7, 3, 4, 4])); // Output: 3
-
-
-//13 find most duplicate value using the for loop
-function findMostDuplicate(arr){
-   let mostDuplicate=null;
-   let count =0;
-  const updated =arr.sort((a,b)=>a-b)
-  for(let i=0;i<arr.length;i++){
-    if(arr[i] ===arr[i+1]){
-      mostDuplicate=arr[i]
-      count++
-    }else{
-       count+=1
-    }
-  }
-  return mostDuplicate
-}
-console.log(findMostDuplicate([2, 3, 3, 7, 3, 4, 4])); // Output: 3
-
-//14 reverse the arrary with out using the inbuilt method
+//12 reverse the arrary with out using the inbuilt method
 function reverseArray(arr){
   let reverse=[]
     for(let num of arr){
@@ -209,7 +218,7 @@ function reverseArray(arr){
 console.log(reverseArray([2, 3, 7,5,4])); // Output: [ 4, 5, 7, 3, 2 ]
 
 
-//15 using the for loop
+//12 using the for loop
 function reverseArrayFor(arr){
    let reverse=[]
     for (let i=arr.length-1;i>=0; i--){
@@ -220,18 +229,18 @@ function reverseArrayFor(arr){
 console.log(reverseArrayFor([2,3, 7,5,4])); // Output: [ 4, 5, 7, 3, 2 ]
 
 
-//16 find the frequacy of the elment  in the array
+//12 find the frequacy of the elment  in the array
 function freqArray(arr) {
   const obj = {};
   for (let num of arr) {
-    obj[num] = obj[num] + 1 || 1;
+    obj[num] = obj[num] + 0 || 1;
   }
   return obj;
 }
 console.log(freqArray([20, 20, 20, 42, 42, 23]));
 
 
-//17 moves all zero at end of array
+//13 moves all zero at end of array
  function moveZerosToEnd(arr) {
   let nonZeroIndex = 0;
   for (let i = 0; i < arr.length; i++) {
@@ -242,11 +251,10 @@ console.log(freqArray([20, 20, 20, 42, 42, 23]));
   }
   return arr;
 }
-
 console.log(moveZerosToEnd([0, 1, 2, 0, 3, 4, 0])); // Output: [1, 2, 3, 4, 0, 0, 0]
 
 
-//18 moves all zero at end of array using the fill method
+//13 using the fill method
 function moveZerosToEnd(arr) {
   let count = 0;
   let updated = [];
@@ -263,7 +271,7 @@ function moveZerosToEnd(arr) {
 }
 console.log(moveZerosToEnd([0, 3, 0, 5, 4])); // Output: [3, 5, 4, 0, 0]
 
-//19 find the missing number of the array 
+//14 find the missing number of the array 
 function findMissingNumber(arr) {
   const n = arr.length + 1;   // const n = Math.max(...arr);  
   const expectedSum = (n * (n + 1)) / 2;
@@ -273,14 +281,14 @@ function findMissingNumber(arr) {
 console.log(findMissingNumber([1, 2, 4, 5, 6])); // Output: 3
 
 
-//20 find the number is availbale 
+//15 find the number is availbale 
 function findNumber(arr,k){
       return arr.find((val)=> val === k)
 }
 
 console.log(findNumber([1, 2, 4, 5, 6],9)); // Output: 3
 
-//21 Problem: Find all unique elements present in two arrays.
+//16 Problem: Find all unique elements present in two arrays.
 //   Example: Input: [1, 2, 3], [2, 3, 4], Output: [1, 2, 3, 4]
 function findUniqueValue(arr1,arr2){
   let update= [...arr1,...arr2]
@@ -288,7 +296,7 @@ function findUniqueValue(arr1,arr2){
 }
 console.log(findUniqueValue([1, 2, 3], [2, 3, 4])); // Output: 3
 
-//22 using the for loop 
+//17 using the for loop 
  function findUniqueArrFor(arr1,arr2){
      for (let num of arr2){
       if(!arr1.includes(num)){
@@ -300,12 +308,19 @@ console.log(findUniqueValue([1, 2, 3], [2, 3, 4])); // Output: 3
  console.log("22-->",findUniqueArrFor([1, 2, 3], [2, 3, 4])); // Output: 3
 
 
-//23  Problem: Find common elements between two arrays.
+//18  Problem: Find common elements between two arrays.
 //  Example: Input: [1, 2, 3], [2, 3, 4], Output: [2, 3]
 function findCommonElements(arr1, arr2) {
   return arr1.filter(element => arr2.includes(element));
 }
 console.log(findCommonElements([1, 2, 3], [2, 3, 4])); // Output: [2, 3]
+
+// const setA = new Set([1, 2, 3, 4, 5, 6]);
+// const setB = new Set([2, 4, 6, 8, 10]);
+// const intersectionSet = setA.intersection(setB);
+// console.log(intersectionSet);   // Set {2, 4, 6}
+
+
 
 
  
