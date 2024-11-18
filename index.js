@@ -91,9 +91,6 @@ function sortArrayTemp(arr) {
 console.log(sortArrayTemp([2, 1, 3, 4, 3, 2]));
 
 
-
-console.log(sortArray([2, 1, 3, 4, 3, 2]));  // Output: [1, 2, 2, 3, 3, 4]
-
 //7 Check if Array is Sorted
 function checkArraySorted (arr){
   let isSorted =false
@@ -190,6 +187,21 @@ function findMostDuplicateValue(arr) {
 console.log(findMostDuplicateValue([2, 3, 3, 7, 3, 4, 4])); // Output: 3
 
 
+// find the unique elemtn in the array
+function findUnique(arr) {
+  const freqMap = {};
+  for (let num of arr) {
+      freqMap[num] = (freqMap[num] || 0) + 1;
+  }
+  
+  // Find the element that occurs exactly once
+  for (let num in freqMap) {
+      if (freqMap[num] === 1) {
+          return num;
+      }
+  }
+}
+console.log(findUnique([1, 2, 3, 2, 3, 1, 4])); // Output: 4
 
 //11 find the majorit of the elemnt
 function majorityElem(arr) {
@@ -285,7 +297,6 @@ console.log(findMissingNumber([1, 2, 4, 5, 6])); // Output: 3
 function findNumber(arr,k){
       return arr.find((val)=> val === k)
 }
-
 console.log(findNumber([1, 2, 4, 5, 6],9)); // Output: 3
 
 //16 Problem: Find all unique elements present in two arrays.
@@ -308,13 +319,63 @@ console.log(findUniqueValue([1, 2, 3], [2, 3, 4])); // Output: 3
  console.log("22-->",findUniqueArrFor([1, 2, 3], [2, 3, 4])); // Output: 3
 
 
-//18  Problem: Find common elements between two arrays.
+
+//18 Find the Pair with a Given Sum
+// Example: Input: [1, 2, 3, 4, 5], Sum = 6, Output: [(1, 5), (2, 4)]
+function findPair(arr, sum) {
+  let updatedArr = [];
+  for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+          if (arr[i] + arr[j] === sum) {
+              updatedArr.push([arr[i], arr[j]]);
+          }
+      }
+  }
+  
+  return updatedArr;
+}
+console.log(findPair([1, 2, 3, 4, 5], 6));  // Output: [[1, 5], [2, 4]]
+
+//19 Find All Pairs with a Given Difference
+// Example: Input: [1, 5, 3, 4, 2], Difference = 2, Output: [(3, 1), (5, 3), (4, 2)]
+ function findDiffPair(arr,diff){
+    let updatedArr=[]
+    for(let i=0;i<arr.length;i++){
+      for(let j=i+1;j<arr.length;j++){
+        if(Math.abs(arr[i]-arr[j ])=== diff){
+          updatedArr.push([arr[i], arr[j]]);
+        }
+      }
+    }
+    return updatedArr
+ }
+ console.log(findDiffPair([1, 2, 3, 4, 5], 2));  // Output: [[1, 5], [2, 4]]
+
+//20 Problem: Rotate an array by k positions to the right.
+// Example: Input: [1, 2, 3, 4, 5], k = 2, Output: [4, 5, 1, 2, 3]
+ function rotateArray(arr, k) {
+  k = k % arr.length;  // Normalize k if it's larger than the array length
+  return [...arr.slice(arr.length - k), ...arr.slice(0, arr.length - k)];
+}
+console.log(rotateArray([1, 2, 3, 4, 5, 6, 7], 3));  // Output: [5, 6, 7, 1, 2, 3, 4]
+
+// ---------------------------------------
+var rotate = function(nums, k) {
+  const n = nums.length;
+  k = k % n; // Adjust k if it's greater than the array length
+  for (let i = 0; i < k; i++) {
+      let last = nums.pop(); // Remove the last element
+      nums.unshift(last);    // Add it to the beginning
+  }
+};
+
+
+//21  Problem: Find common elements between two arrays.
 //  Example: Input: [1, 2, 3], [2, 3, 4], Output: [2, 3]
 function findCommonElements(arr1, arr2) {
   return arr1.filter(element => arr2.includes(element));
 }
 console.log(findCommonElements([1, 2, 3], [2, 3, 4])); // Output: [2, 3]
-
 // const setA = new Set([1, 2, 3, 4, 5, 6]);
 // const setB = new Set([2, 4, 6, 8, 10]);
 // const intersectionSet = setA.intersection(setB);
@@ -322,5 +383,24 @@ console.log(findCommonElements([1, 2, 3], [2, 3, 4])); // Output: [2, 3]
 
 
 
+// Problem: Find all unique elements present in two arrays.
+// Example: Input: [1, 2, 3], [2, 3, 4], Output: [1, 2, 3, 4]
+function uniqueArr(arr1,arr2){
+      for(let val of arr2){
+       if(!arr1.includes(val)){
+          arr1.push(val)
+       }
+      }
+      return arr1
+}
+console.log(uniqueArr([1, 2, 3], [2, 3, 4]))
 
- 
+//using the inbuilt method
+function findUniqueElements(arr1, arr2) {
+  const uniqueElements = [...new Set([...arr1, ...arr2])];
+  return uniqueElements;
+}
+console.log(findUniqueElements([1, 2, 3], [2, 3, 4]))
+
+
+// Find Common Elements in Three Sorted Arrays
